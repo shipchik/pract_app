@@ -1,0 +1,22 @@
+.content {
+    grid-area: c;
+    background-color: cornflowerblue;
+}
+
+
+.item { 
+    
+}
+
+
+.main{
+    grid-area: m;
+    background-color: gold;
+  
+  }
+
+
+.bg_image src{
+    width: 100%;
+    height: 100%;
+  }
