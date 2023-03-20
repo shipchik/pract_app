@@ -2,13 +2,15 @@
 .nav{
     grid-area: n;
     background-color: blueviolet;
-    height: 100%;
+    
+    padding: 20px;
   }
 
-.item{
+.item a{
     color: white;
+    text-decoration: none;
 }
 
-.item.active{
-  color:darkseagreen;
+.item a.active{
+  color:black;
 }

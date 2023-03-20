@@ -1,18 +1,13 @@
-import background_image from './../../../static/img/content_background.webp';
+
 import MyPosts from './MyPosts/MyPosts';
 import style from './Profile.module.css';
+import ProfileInfo from './ProfileInfo/ProfileInfo';
 
 const Profile = () => {
     return (
-        <div className={style.main}>
-        <div className={style.bg_image}>
-        <img src={background_image} alt="bg" />
-        </div>
-
-        <div>
-          ava-info
-        </div>
-
+        <div >
+        
+        <ProfileInfo />
         <MyPosts />
 
       </div>
