@@ -13,6 +13,7 @@ import { BrowserRouter as Router, Route, Routes,Link} from "react-router-dom";
 const App = () => {
   return (
     <Router>
+      
       <div className={style.app_wraper}>
         <Header />
         <Navbar />
