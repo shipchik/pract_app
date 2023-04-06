@@ -6,38 +6,30 @@ import Dialog from "./DialogItem/DialogItem";
 
 
 
+interface DialogProps{
+    dialogs: {
+        id: number;
+        name: string;
+    }[]
+    messages: {
+        id: number;
+        message: string;
+    }[]
+
+}
 
 
 
 
-const Dialogs = () => {
+const Dialogs = (props:DialogProps) => {
 
-
-    let dialogsData = [
-        {id:1, name:"Maxim"},
-        {id:2, name:"Lera"},
-        {id:3, name:"Anton"},
-        {id:4, name:"Katya"},
-        {id:5, name:"Vika"},
-
-    ]
-
-    let DialogsElements = dialogsData.map(
+    let DialogsElements = props.dialogs.map(
         dialog => <Dialog name={dialog.name} id={dialog.id} />
     );
 
-
-    let MessageData = [
-        {id:1,message:"hi"},
-        {id:2,message:"How Are You"},
-        {id:3,message:"Hello"}
-    ]
-
-    let messageElements = MessageData.map(
+    let messageElements = props.messages.map(
         message => < Message message={message.message} />
     );
-
-
 
     return (
         <div className={style.dialogs}>

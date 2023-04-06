@@ -1,27 +1,41 @@
+import React from "react";
 import style from "./MyPosts.module.css";
 import Post from "./Post/Post";
 
-const MyPosts = () => {
+interface MyPostsProps{
+  posts: {
+    id: number;
+    message: string;
+    likeCount: number;
+}[],
+add_post:(postMessage: string) => void,
+}
 
-  let posts = [
-    {id: 1, message:'how are you', likeCount:12},
-    {id: 2, message:'How are you', likeCount:32},
+const MyPosts = (props:MyPostsProps) => {
 
-  ]
+  
 
-  let postElement = posts.map(
+  let postElement = props.posts.map(
     post => <Post message={post.message} likeCount={post.likeCount} />
   );
+
+
+  let post_text = React.createRef<HTMLTextAreaElement>();
+
+  let add_post = () => {
+    
+    props.add_post(post_text.current?.value!);
+  } 
 
   return (
     <div className={style.postsBlock}>
       posts
       <div>
         <div>
-          <textarea></textarea>
+          <textarea ref={post_text} />
         </div>
         <div>
-          <button>add post</button>
+          <button onClick={add_post}>add post</button>
           <button>remove post</button>
         </div>
       </div>
