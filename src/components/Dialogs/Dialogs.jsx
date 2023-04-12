@@ -1,0 +1,50 @@
+import style from "./Dialogs.module.css";
+import React from "react";
+import { NavLink } from "react-router-dom";
+import Message from "./Message/Message";
+import Dialog from "./DialogItem/DialogItem";
+import { useState } from "react";
+
+
+
+
+const Dialogs = (props  ) => {
+
+    let state = props.messagePage;
+
+
+    let DialogsElements = state.dialogsData.map(
+        dialog => <Dialog name={dialog.name} id={dialog.id} />
+    );
+
+    let messageElements = state.MessageData.map(
+        message => < Message message={message.message} />
+    );
+    let newMessageBody = state.newMessageBody
+
+    let onSendMessageClick =() =>{
+        props.sendMessage(message);
+    }
+    const [message, setMessage] = useState('');
+    let onNewMessageChange =(e) => {
+        let body = e.target.value;
+        props.updateNewMessageBody(body);
+    }
+
+    return (
+        <div className={style.dialogs}>
+            <div className={style.dialogsItems}>
+                {DialogsElements}
+            </div>
+            <div className={style.messages}>
+                {messageElements}
+                <div>
+                    <div><textarea value={message} onChange={e => setMessage(e.target.value)} placeholder="Enter your message"></textarea></div> 
+                     <div><button onClick={onSendMessageClick}></button></div>
+                </div>
+            </div>
+        </div>
+    );
+};
+
+export default Dialogs;

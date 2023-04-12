@@ -2,29 +2,21 @@ import React from "react";
 import style from "./MyPosts.module.css";
 import Post from "./Post/Post";
 
-interface MyPostsProps{
-  posts: {
-    id: number;
-    message: string;
-    likeCount: number;
-}[],
-add_post:(postMessage: string) => void,
-}
 
-const MyPosts = (props:MyPostsProps) => {
+const MyPosts = (props) => {
 
   
-
+  
   let postElement = props.posts.map(
     post => <Post message={post.message} likeCount={post.likeCount} />
   );
 
 
-  let post_text = React.createRef<HTMLTextAreaElement>();
+  let post_text = React.createRef();
 
   let add_post = () => {
     
-    props.add_post(post_text.current?.value!);
+    props.addPost(post_text.current?.value);
   } 
 
   return (

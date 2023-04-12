@@ -2,11 +2,9 @@
 import React from "react";
 import style from './../Dialogs.module.css';
 
-interface MessageProps{
-    message:string;
-}
 
-const Message = (props:MessageProps) => {
+
+const Message = (props) => {
     return(
         <div className={style.dialog}>
             {props.message}

@@ -1,5 +1,5 @@
 import React from "react";
-import background_image from './../../../../static/img/content_background.webp';
+import background_image from './../../../img/content_background.webp';
 import style from './ProfileInfo.module.css';
 
 
