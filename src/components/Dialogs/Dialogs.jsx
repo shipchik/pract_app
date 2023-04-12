@@ -9,7 +9,7 @@ import { useState } from "react";
 
 
 const Dialogs = (props  ) => {
-
+    debugger
     let state = props.messagePage;
 
 
@@ -23,9 +23,12 @@ const Dialogs = (props  ) => {
     let newMessageBody = state.newMessageBody
 
     let onSendMessageClick =() =>{
+        setMessage('');
         props.sendMessage(message);
+        
+        
     }
-    const [message, setMessage] = useState('');
+    let [message, setMessage] = useState('');
     let onNewMessageChange =(e) => {
         let body = e.target.value;
         props.updateNewMessageBody(body);

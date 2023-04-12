@@ -1,22 +1,23 @@
-import React from "react";
+import React, { useState } from "react";
 import style from "./MyPosts.module.css";
 import Post from "./Post/Post";
 
 
 const MyPosts = (props) => {
-
+  
   
   
   let postElement = props.posts.map(
-    post => <Post message={post.message} likeCount={post.likeCount} />
+    post => <Post message={post.message} likeCount={post.likeCount} key={post.id}/>
   );
 
 
-  let post_text = React.createRef();
-
+ 
+  const [message,setMessage] = useState('')
   let add_post = () => {
-    
-    props.addPost(post_text.current?.value);
+    let mes = message;
+    setMessage("");
+    props.addPost(mes);
   } 
 
   return (
@@ -24,7 +25,7 @@ const MyPosts = (props) => {
       posts
       <div>
         <div>
-          <textarea ref={post_text} />
+          <textarea value={message} onChange={e => setMessage(e.target.value)} />
         </div>
         <div>
           <button onClick={add_post}>add post</button>
