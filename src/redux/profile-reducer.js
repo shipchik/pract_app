@@ -23,14 +23,9 @@ const profileReducer = (state= initState ,action) => {
                 likeCount: Math.floor((Math.random() * 100))
     
             };
-            
-            
             state.profilePage.posts.push(new_post);
             console.log(state)
             rerenderTree();
-            
-
-            
             return state;
         case 'UPDATE-NEW-POST-TEXT':
              state.newPostText = action.newText; 
