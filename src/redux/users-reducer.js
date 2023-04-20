@@ -5,16 +5,18 @@ import image from './../img/unknown-avatar.jpeg'
 const FOLLOW = 'FOLLOW'
 const UNFOLLOW = 'UNFOLLOW'
 const SET_USERS ='SET-USERS'
+const SET_CURRENT_PAGE = 'SET-CURRENT-PAGE';
+const SET_TOTAL_USERS_COUNT = 'SET_TOTAL_USERS_COUNT';
+const TOOGLE_IS_FETCHING = 'TOOGLE_IS_FETCHING';
 
 
 let initState = {
-    users : [
-        {id:1,PhotoUrl:image,followed: false, fullName: "Dmitry",status: "asdasw", location: {city: 'Minsk', country:"belarus"}},
-        {id:2,PhotoUrl:image,followed:true, fullName: "Sasha",status: "asdasw", location: {city: 'new-york', country:"belarus"}},
-        {id:3,PhotoUrl:image,followed:true, fullName: "Dasha",status: "asdasw", location: {city: 'moscow', country:"belarus"}},
+    users : [],
+    pageSize:5,
+    totalUsersCount: 16,
+    currentPage:1,
+    isFetching: true
 
-
-    ]
       
 
 };
@@ -47,7 +49,16 @@ const usersReducer = (state= initState ,action) => {
 
         }
         case SET_USERS: {
-            return {...state,users:[...state.users,...action.users]}
+            return {...state,users:[...action.users]}
+        }
+        case SET_CURRENT_PAGE: {
+            return {...state,currentPage:action.currentPage}
+        }
+        case SET_TOTAL_USERS_COUNT: {
+            return {...state, totalUsersCount: action.count}
+        }
+        case TOOGLE_IS_FETCHING: {
+            return {...state, isFetching: action.isFetching}
         }
 
 
@@ -64,8 +75,10 @@ const usersReducer = (state= initState ,action) => {
 }
 
 
-export const followAC = (userid) => ({type:FOLLOW, userid:userid})
-export const unfollowAC = (userid) => ({type: UNFOLLOW,userid:userid})
-export const setUsersAC = (users) => ({type:SET_USERS,users})
-
+export const follow = (userid) => ({type:FOLLOW, userid:userid})
+export const unfollow = (userid) => ({type: UNFOLLOW,userid:userid})
+export const setUsers = (users) => ({type:SET_USERS,users})
+export const setCurrentPage = (currentPage) => ({type: SET_CURRENT_PAGE, currentPage:currentPage})
+export const setTotalUsersCount = (totalUsersCount) => ({type: SET_TOTAL_USERS_COUNT, count:totalUsersCount})
+export const toogleIsFetching = (isFetching) => ({type: TOOGLE_IS_FETCHING, isFetching})
 export default usersReducer

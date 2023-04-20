@@ -2,3 +2,15 @@
     width:100px;
     height: 100px;
 }
+
+
+
+.selectedPage {
+    font-weight: bold;
+}
+
+
+.fetchingIMG { 
+    width:100px;
+    height: 100px;
+}

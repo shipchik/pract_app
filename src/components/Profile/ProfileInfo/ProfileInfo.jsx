@@ -5,7 +5,7 @@ import style from './ProfileInfo.module.css';
 
 
 
-const ProfileInfo = () => {
+const ProfileInfo = (props) => {
     return(
         <div >
         <div className={style.bg_image}>
@@ -13,6 +13,7 @@ const ProfileInfo = () => {
         </div>
 
         <div className={style.profileinfo}>
+          <img src={props.profile.photos.large} alt="smth" />
           ava-info
         </div>
         </div>
