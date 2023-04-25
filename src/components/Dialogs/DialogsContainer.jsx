@@ -8,11 +8,19 @@ import { useState } from "react";
 import Dialogs from "./Dialogs";
 
 import { connect, useDispatch } from "react-redux";
-
+import { Navigate } from "react-router-dom";
 import { sendMessageCreator,updateNewMessageBodyCreator } from "../../redux/dialogs-reducer";
+import { AuthRedirect } from "../../hoc/AuthRedirect";
+import { compose } from "redux";
+
+
+let mapStateToPropsForRedirect=(state) =>({
+    isAuth: state.auth.isAuth
+})
 
 
 
+    
 
 
 
@@ -20,6 +28,7 @@ let mapStateToProps=(state) =>{
     
     return  {
         messagePage:state.messagePage,
+        
         
         
     }
@@ -43,6 +52,11 @@ let mapDispatchToProps = (dispatch) => {
 
 
 
-const DialogsContainer = connect(mapStateToProps,mapDispatchToProps)(Dialogs);
+let AuthRedirectComponent = AuthRedirect(Dialogs)
+const DialogsContainer = connect(mapStateToProps,mapDispatchToProps)(AuthRedirectComponent);
 
-export default DialogsContainer;
+export default compose(
+    connect(mapStateToProps,mapDispatchToProps),
+    AuthRedirect
+
+    )(Dialogs);

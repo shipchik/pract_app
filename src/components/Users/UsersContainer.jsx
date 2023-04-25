@@ -1,4 +1,4 @@
-import { follow, setUsers, unfollow ,setCurrentPage, setTotalUsersCount,  toogleIsFetching,toogleFollowingInProgress,getUsersThunk} from "../../redux/users-reducer";
+import { acceptFollow,follow,unfollow, acceptUnfollow ,setCurrentPage,toogleFollowingInProgress,getUsers} from "../../redux/users-reducer";
 import React from "react";
 import axios from "axios";
 import Users from "./Users";
@@ -6,33 +6,21 @@ import { connect } from "react-redux";
 import preloader from './../../img/preloader.svg'
 import style from './Users.module.css'
 import Preloader from './../common/Preloader/Preloader'
-import { getUsers } from "../../api/api";
+import { AuthRedirect } from "../../hoc/AuthRedirect";
+import { compose } from "redux";
+
 
 class UsersAPI extends React.Component {
 
-    // constructor(props){
-    //     super(props);
-        
-    // }
-
+  
     componentDidMount() {
-        this.props.getUsersThunk(this.props.currentPage,this.props.pageSize);
-        // this.props.toogleIsFetching(true);
-        // getUsers(this.props.currentPage,this.props.pageSize).then(response => {
-        //         this.props.toogleIsFetching(false);
-        //         this.props.setUsers(response.items)
-        //         this.props.setTotalUsersCount(response.totalCount)
-        //     })
+        this.props.getUsers(this.props.currentPage,this.props.pageSize);
+     
     }
 
     onPageChanged = (pageNumber) => {
-        this.props.setCurrentPage(pageNumber);
-        this.props.toogleIsFetching(true);
-
-        getUsers(this.props.currentPage,this.props.pageSize).then(response => {
-                this.props.toogleIsFetching(false);
-                this.props.setUsers(response.items)
-            })
+        this.props.getUsers(pageNumber,this.props.pageSize)
+       
     }
 
     
@@ -47,7 +35,7 @@ class UsersAPI extends React.Component {
         users = {this.props.users}
         follow ={this.props.follow}
         unfollow = {this.props.unfollow}
-        toogleFollowingInProgress = {this.props.toogleFollowingInProgress}
+        
         
         followingInProgress = {this.props.followingInProgress} /> 
         </>
@@ -65,26 +53,46 @@ let mapStateToProps = (state) =>{
         pageSize: state.usersPage.pageSize,
         totalUsersCount : state.usersPage.totalUsersCount,
         currentPage:state.usersPage.currentPage,
-        isFetching : state.usersPage.isFetching,
+        
         followingInProgress: state.usersPage.followingInProgress
 
     }
 }
 
-
+let Redirect = AuthRedirect(UsersAPI)
 
 const UsersContainer = connect(mapStateToProps,{
     follow,
     unfollow,
-    setUsers,
+    acceptFollow,
+    acceptUnfollow,
+    
     setCurrentPage,
-    setTotalUsersCount,
-    toogleIsFetching,
+    
+    
     toogleFollowingInProgress,
-    getUsersThunk,
+    getUsers,
     
 }
-)(UsersAPI)
+)(Redirect)
 
 
-export default UsersContainer;
+
+export default 
+compose(
+    AuthRedirect,
+    connect(mapStateToProps,{
+        follow,
+        unfollow,
+        acceptFollow,
+        acceptUnfollow,
+        
+        setCurrentPage,
+        
+        
+        toogleFollowingInProgress,
+        getUsers,
+        
+    }
+    )
+)(UsersContainer);
