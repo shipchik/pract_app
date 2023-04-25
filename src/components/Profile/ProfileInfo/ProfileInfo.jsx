@@ -1,11 +1,14 @@
 import React from "react";
 import background_image from './../../../img/content_background.webp';
 import style from './ProfileInfo.module.css';
-
+import Preloader from '../../common/Preloader/Preloader'
 
 
 
 const ProfileInfo = (props) => {
+    if(!props.profile){
+      return < Preloader />
+    }
     return(
         <div >
         <div className={style.bg_image}>

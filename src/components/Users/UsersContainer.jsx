@@ -1,4 +1,4 @@
-import { follow, setUsers, unfollow ,setCurrentPage, setTotalUsersCount,  toogleIsFetching} from "../../redux/users-reducer";
+import { follow, setUsers, unfollow ,setCurrentPage, setTotalUsersCount,  toogleIsFetching,toogleFollowingInProgress,getUsersThunk} from "../../redux/users-reducer";
 import React from "react";
 import axios from "axios";
 import Users from "./Users";
@@ -6,6 +6,7 @@ import { connect } from "react-redux";
 import preloader from './../../img/preloader.svg'
 import style from './Users.module.css'
 import Preloader from './../common/Preloader/Preloader'
+import { getUsers } from "../../api/api";
 
 class UsersAPI extends React.Component {
 
@@ -15,21 +16,22 @@ class UsersAPI extends React.Component {
     // }
 
     componentDidMount() {
-        this.props.toogleIsFetching(true);
-        axios.get(`https://social-network.samuraijs.com/api/1.0/users?page=${this.props.currentPage}&count=${this.props.pageSize}`).then(response => {
-                this.props.toogleIsFetching(false);
-                this.props.setUsers(response.data.items)
-                this.props.setTotalUsersCount(response.data.totalCount)
-            })
+        this.props.getUsersThunk(this.props.currentPage,this.props.pageSize);
+        // this.props.toogleIsFetching(true);
+        // getUsers(this.props.currentPage,this.props.pageSize).then(response => {
+        //         this.props.toogleIsFetching(false);
+        //         this.props.setUsers(response.items)
+        //         this.props.setTotalUsersCount(response.totalCount)
+        //     })
     }
 
     onPageChanged = (pageNumber) => {
         this.props.setCurrentPage(pageNumber);
         this.props.toogleIsFetching(true);
 
-        axios.get(`https://social-network.samuraijs.com/api/1.0/users?page=${pageNumber}&count=${this.props.pageSize}`).then(response => {
+        getUsers(this.props.currentPage,this.props.pageSize).then(response => {
                 this.props.toogleIsFetching(false);
-                this.props.setUsers(response.data.items)
+                this.props.setUsers(response.items)
             })
     }
 
@@ -38,12 +40,16 @@ class UsersAPI extends React.Component {
          
         return  <>
         {this.props.isFetching ? <Preloader />: null}
+        
         <Users totalUsersCount = {this.props.totalUsersCount}
         pageSize = {this.props.pageSize} currentPage = {this.props.currentPage}
         onPageChanged = {this.onPageChanged}
         users = {this.props.users}
         follow ={this.props.follow}
-        unfollow = {this.props.unfollow} /> 
+        unfollow = {this.props.unfollow}
+        toogleFollowingInProgress = {this.props.toogleFollowingInProgress}
+        
+        followingInProgress = {this.props.followingInProgress} /> 
         </>
     }
 
@@ -60,33 +66,11 @@ let mapStateToProps = (state) =>{
         totalUsersCount : state.usersPage.totalUsersCount,
         currentPage:state.usersPage.currentPage,
         isFetching : state.usersPage.isFetching,
+        followingInProgress: state.usersPage.followingInProgress
 
     }
 }
 
-// let mapDispatchToProps = (dispatch) =>{
-//     return {
-//         follow: (userid) => {
-//             dispatch(followAC(userid))
-//         },
-//         unfollow: (userid) => {
-//             dispatch(unfollowAC(userid))
-//         },
-//         setUsers:(users) =>{
-//             dispatch(setUsersAC(users))
-//         },
-//         setCurrentPage: (pageNumber) => {
-//             dispatch(setCurrentPageAC(pageNumber))
-//         },
-//         setTotalUsersCount: (totalCount) => {
-//             dispatch(SetUsersTotalCountAC(totalCount))
-//         },
-//         toogleIsFetching : (isFetching) => {
-//             dispatch(setIsFetching(isFetching));
-//         }
-
-//     }
-// }
 
 
 const UsersContainer = connect(mapStateToProps,{
@@ -96,6 +80,8 @@ const UsersContainer = connect(mapStateToProps,{
     setCurrentPage,
     setTotalUsersCount,
     toogleIsFetching,
+    toogleFollowingInProgress,
+    getUsersThunk,
     
 }
 )(UsersAPI)
