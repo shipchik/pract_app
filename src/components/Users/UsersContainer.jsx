@@ -7,6 +7,7 @@ import preloader from './../../img/preloader.svg'
 import style from './Users.module.css'
 import Preloader from './../common/Preloader/Preloader'
 import { UserAPI, getUsers } from "../../api/api";
+import { withAuthRedirect } from "../../hoc/withAuthRedirect";
 
 class UsersAPI extends React.Component {
 
@@ -65,7 +66,9 @@ let mapStateToProps = (state) =>{
 
 
 
-const UsersContainer = connect(mapStateToProps,{
+
+
+const UsersContainer = withAuthRedirect(connect(mapStateToProps,{
     follow,
     unfollow,
     setUsers,
@@ -76,7 +79,7 @@ const UsersContainer = connect(mapStateToProps,{
     getUsersThunk,
     
 }
-)(UsersAPI)
+)(UsersAPI))
 
 
 export default UsersContainer;
