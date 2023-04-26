@@ -8,6 +8,7 @@ import style from './Users.module.css'
 import Preloader from './../common/Preloader/Preloader'
 import { UserAPI, getUsers } from "../../api/api";
 import { withAuthRedirect } from "../../hoc/withAuthRedirect";
+import { compose } from "redux";
 
 class UsersAPI extends React.Component {
 
@@ -82,4 +83,17 @@ const UsersContainer = withAuthRedirect(connect(mapStateToProps,{
 )(UsersAPI))
 
 
-export default UsersContainer;
+export default compose(
+    connect(mapStateToProps,{
+        follow,
+        unfollow,
+        setUsers,
+        setCurrentPage,
+        setTotalUsersCount,
+        toogleIsFetching,
+        toogleFollowingInProgress,
+        getUsersThunk,
+        
+    }),
+    withAuthRedirect
+)(UsersAPI)
