@@ -4,6 +4,7 @@ import { NavLink } from "react-router-dom";
 import Message from "./Message/Message";
 import Dialog from "./DialogItem/DialogItem";
 import { useState } from "react";
+import { Navigate } from "react-router-dom";
 
 
 
@@ -12,7 +13,7 @@ const Dialogs = (props  ) => {
     debugger
     let state = props.messagePage;
 
-
+    
     let DialogsElements = state.dialogsData.map(
         dialog => <Dialog name={dialog.name} id={dialog.id} />
     );
@@ -33,7 +34,7 @@ const Dialogs = (props  ) => {
         let body = e.target.value;
         props.updateNewMessageBody(body);
     }
-
+    
     return (
         <div className={style.dialogs}>
             <div className={style.dialogsItems}>

@@ -1,6 +1,6 @@
 import { rerenderTree } from "..";
 import image from './../img/unknown-avatar.jpeg'
-import { getUsers } from "../api/api";
+import { UserAPI, getUsers } from "../api/api";
 
 const FOLLOW = 'FOLLOW'
 const UNFOLLOW = 'UNFOLLOW'
@@ -95,7 +95,7 @@ export const toogleFollowingInProgress =(isFetching,userid) =>({type:TOOGLE_IS_F
 export const getUsersThunk = (currentPage,pageSize) => {return (dispatch) => {
     debugger
     dispatch(toogleIsFetching(true));
-        getUsers(currentPage,pageSize).then(response => {
+       UserAPI.getUsers(currentPage,pageSize).then(response => {
                 dispatch(toogleIsFetching(false));
                 dispatch(setUsers(response.items))
                 dispatch(setTotalUsersCount(response.totalCount))

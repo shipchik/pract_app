@@ -6,30 +6,22 @@ import { connect } from "react-redux";
 import preloader from './../../img/preloader.svg'
 import style from './Users.module.css'
 import Preloader from './../common/Preloader/Preloader'
-import { getUsers } from "../../api/api";
+import { UserAPI, getUsers } from "../../api/api";
 
 class UsersAPI extends React.Component {
 
-    // constructor(props){
-    //     super(props);
-        
-    // }
+    
 
     componentDidMount() {
         this.props.getUsersThunk(this.props.currentPage,this.props.pageSize);
-        // this.props.toogleIsFetching(true);
-        // getUsers(this.props.currentPage,this.props.pageSize).then(response => {
-        //         this.props.toogleIsFetching(false);
-        //         this.props.setUsers(response.items)
-        //         this.props.setTotalUsersCount(response.totalCount)
-        //     })
+       
     }
 
     onPageChanged = (pageNumber) => {
         this.props.setCurrentPage(pageNumber);
         this.props.toogleIsFetching(true);
 
-        getUsers(this.props.currentPage,this.props.pageSize).then(response => {
+        UserAPI.getUsers(this.props.currentPage,this.props.pageSize).then(response => {
                 this.props.toogleIsFetching(false);
                 this.props.setUsers(response.items)
             })
