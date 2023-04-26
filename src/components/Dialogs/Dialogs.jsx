@@ -1,10 +1,9 @@
 import style from "./Dialogs.module.css";
 import React from "react";
-import { NavLink, redirect } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import Message from "./Message/Message";
 import Dialog from "./DialogItem/DialogItem";
 import { useState } from "react";
-import { Navigate } from "react-router-dom";
 
 
 
@@ -33,9 +32,6 @@ const Dialogs = (props  ) => {
     let onNewMessageChange =(e) => {
         let body = e.target.value;
         props.updateNewMessageBody(body);
-    }
-    if(!props.isAuth){
-        return <Navigate to={"/login"} />
     }
 
     return (

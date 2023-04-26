@@ -2,7 +2,7 @@ import style from "./Users.module.css";
 import image from "./../../img/unknown-avatar.jpeg";
 import { NavLink } from "react-router-dom";
 import axios from "axios";
-
+import { follow, unfollow } from "../../api/api";
 let Users = (props) => {
   let pagesCount = Math.ceil(props.totalUsersCount / props.pageSize);
  
@@ -46,14 +46,30 @@ let Users = (props) => {
                 <button
                   disabled={props.followingInProgress.some(id => id===u.id)} onClick={() => {
                     
-                    props.unfollow(u.id)
+                    props.toogleFollowingInProgress(true,u.id)
+                    unfollow(u.id).then(data => {
+                        if (data.resultCode === 0) {
+                            props.unfollow(u.id);
+                            props.toogleFollowingInProgress(false,u.id)
+
+                        }
+                      });
                     
                   }}>Unfollow</button>
               ) : (
                 <button
                 disabled={props.followingInProgress.some(id => id===u.id)} onClick={() => {
                   
-                    props.follow(u.id)
+                    props.toogleFollowingInProgress(true, u.id)
+                    
+                    follow(u.id).then(data => {
+                        if (data.resultCode === 0) {
+                            props.follow(u.id);
+                            
+                            props.toogleFollowingInProgress(false, u.id)
+
+                        }
+                      });
                     
                     
                   }}

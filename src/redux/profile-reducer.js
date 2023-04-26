@@ -1,5 +1,5 @@
 import { rerenderTree } from "..";
-import { UsersAPI } from "../api/api";
+
 
 
 const SET_USER_PROFILE = 'SET_USER_PROFILE'
@@ -55,12 +55,5 @@ export const addPostActionCreator = (text) => ({type:'ADD-POST',text:text})
 export const updateNewPostTextActionCreator = (text) => 
 ({type: 'UPDATE-NEW-POST-TEXT',newText:text})
 export const setUserProfile = (profile) => ({type:SET_USER_PROFILE,profile})
-export const getUserProfile = (userId) => (dispatch) => {
-    UsersAPI.getProfile(userId).then(response => {
-        dispatch(setUserProfile(response.data))
-        
-        
-    })
-}
 
 export default profileReducer
