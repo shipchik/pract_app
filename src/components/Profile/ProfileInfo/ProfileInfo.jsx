@@ -2,7 +2,7 @@ import React from "react";
 import background_image from './../../../img/content_background.webp';
 import style from './ProfileInfo.module.css';
 import Preloader from '../../common/Preloader/Preloader'
-
+import ProfileStatus from "./ProfileStatus";
 
 
 const ProfileInfo = (props) => {
@@ -17,7 +17,7 @@ const ProfileInfo = (props) => {
 
         <div className={style.profileinfo}>
           <img src={props.profile.photos.large} alt="smth" />
-          ava-info
+          <ProfileStatus status={"Hi"} />
         </div>
         </div>
     );
