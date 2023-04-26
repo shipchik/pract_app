@@ -30,11 +30,15 @@ const Dialogs = (props  ) => {
         
     }
     let [message, setMessage] = useState('');
-    let onNewMessageChange =(e) => {
-        let body = e.target.value;
-        props.updateNewMessageBody(body);
+    // let onNewMessageChange =(e) => {
+    //     let body = e.target.value;
+    //     props.updateNewMessageBody(body);
+    // }
+   
+    if (!props.isAuth){
+        
+        return <Navigate to={"/login"} />
     }
-    
     return (
         <div className={style.dialogs}>
             <div className={style.dialogsItems}>

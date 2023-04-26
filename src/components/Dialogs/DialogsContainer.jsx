@@ -20,7 +20,7 @@ let mapStateToProps=(state) =>{
     
     return  {
         messagePage:state.messagePage,
-        
+        isAuth: state.auth.isAuth
         
     }
 }

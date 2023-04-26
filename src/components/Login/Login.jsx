@@ -1,5 +1,5 @@
 
-const Login = () => {
+const Login = (props) => {
     return <h1>LOGIN</h1>
 }
 

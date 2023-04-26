@@ -4,7 +4,7 @@ import axios from "axios";
 import { connect } from "react-redux";
 import { setUserProfile } from "../../redux/profile-reducer";
 import { useParams, useNavigate } from 'react-router-dom';
-
+import { Navigate } from "react-router-dom";
 
 export function withRouter(Children){
     return(props)=>{
@@ -32,7 +32,10 @@ class ProfileContainer extends React.Component {
     }
 
     render() {
+        if (!this.props.isAuth){
         
+            return <Navigate to={"/login"} />
+        }
         return (
             <div >
         
@@ -46,6 +49,7 @@ class ProfileContainer extends React.Component {
 
 let mapStateToProps = (state) => ({
     profile: state.profilePage.profile,
+    isAuth:state.auth.isAuth
 
 })
 
