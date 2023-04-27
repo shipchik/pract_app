@@ -40,13 +40,31 @@ unfollow(id){
       });
   },
   getProfile(userId){
-    return instance.get(`profile/${userId}`,{
-          withCredentials: true
-      }
-      )
+    return ProfileAPI.getProfile(userId)
+  
   },
   
+
+  
 }
+
+export const ProfileAPI = {
+ 
+   getProfile(userId){
+     return instance.get(`profile/${userId}`,{
+           withCredentials: true
+       }
+       )
+   },
+   getStatus(userId){
+    return instance.get('profile/status/'+userId)
+  },
+  updateStatus(status,userId){
+    return instance.put('profile/status',{status})
+  }
+   
+ }
+
 
 
 export const authAPI = {
