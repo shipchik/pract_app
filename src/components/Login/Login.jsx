@@ -1,7 +1,8 @@
 
 import { Field,Form } from "react-final-form"
-
-
+import { connect } from "react-redux"
+import { login } from "../../redux/auth-reducer"
+import { Navigate } from "react-router-dom"
 
 const required = value => {
     
@@ -11,8 +12,14 @@ const required = value => {
 
 const Login = (props) => {
     const onSubmit = (formData) =>{
-        console.log(formData)
+        props.login(formData.login,formData.password,formData.remember)
     }
+
+
+    if(props.isAuth){
+        return <Navigate to={'/profile'} />
+    }
+    
     return <div>
         <h1>LOGIN</h1>
         <Form
@@ -32,7 +39,7 @@ const Login = (props) => {
                 </Field>
             </div>
             <div>
-                <Field validate={required} placeholder={"password"} name={"password"}>
+                <Field validate={required} placeholder={"password"} name={"password"} type="password">
                 {({ input, meta }) => (
                     <div>
                         <input {...input} />
@@ -55,7 +62,9 @@ const Login = (props) => {
     </div>
 }
 
+const mapStateToProps =(state)=>({
+    isAuth:state.auth.isAuth
+})
 
 
-
-export default Login
+export default connect(mapStateToProps,{login})(Login)
