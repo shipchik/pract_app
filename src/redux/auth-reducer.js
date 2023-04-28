@@ -1,18 +1,20 @@
 import { rerenderTree } from "..";
 import { authAPI } from "../api/api";
 import image from './../img/unknown-avatar.jpeg'
+import { stopSubmit } from "redux-form";
 
 
 
 const SET_USER_DATA = 'SET_USER_DATA'
-
+const SET_MESSAGE_ERROR = 'SET_MESSAGE_ERROR'
 
 
 let initState = {
     userId:null,
     email:null,
     login: null,
-    isAuth:false
+    isAuth:false,
+    messageError:null
 
       
 
@@ -25,12 +27,13 @@ const authReducer = (state= initState ,action) => {
             return {
                 ...state,
                 ...action.data,
-                
-
-
-
             }
-          
+        case SET_MESSAGE_ERROR:
+            
+            let StateCopy ={...state}
+            StateCopy.messageError = action.messageError
+                
+            return StateCopy
        
         default :
             return state
@@ -40,7 +43,7 @@ const authReducer = (state= initState ,action) => {
     
 }
 
-
+export const setError = (messageError) => ({type:SET_MESSAGE_ERROR,messageError:messageError})
 export const setAuthUserData = (userId,email,login,isAuth) => ({type:SET_USER_DATA, data: {userId,email,login,isAuth  }})
 export const getAuthUserData = () => (dispatch) => {
     authAPI.me().then(response => {
@@ -56,6 +59,10 @@ export const login = (email,password,rememberMe) => (dispatch) => {
         if(response.data.resultCode ===0){
             dispatch(getAuthUserData())
         }
+        else {
+            
+            dispatch(setError(...response.data.messages))
+        }
     })
 }
 
@@ -64,6 +71,7 @@ export const logout = () => (dispatch) => {
         if(response.data.resultCode ===0){
             dispatch(setAuthUserData(null,null,null,false))
         }
+        
     })
 }
 
