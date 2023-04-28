@@ -1,34 +1,12 @@
 
-import { reduxForm,Field } from "redux-form"
+import { Field,Form } from "react-final-form"
 
 
 
+const required = value => {
+    
+    return (value ? undefined : 'Required')}
 
-
-const LoginForm = (props) => {
-    return (
-        
-        
-        <form onSubmit={props.handleSubmit}>
-            <div>
-                <Field placeholder={"login"} name={"login"} component={"input"} />
-            </div>
-            <div>
-                <Field placeholder={"password"} name={"password"} component={"input"}/>
-            </div>
-            <div>
-                <Field type={"checkbox"} name={"remember"} component={"input"}  /> remember me
-            </div>
-            <div>
-                <button>Login</button>
-            </div>
-        </form>
-        
-       
-    )
-}
-
-const ReduxForm = reduxForm({form:'login'})(LoginForm)
 
 
 const Login = (props) => {
@@ -37,7 +15,43 @@ const Login = (props) => {
     }
     return <div>
         <h1>LOGIN</h1>
-        <ReduxForm onSubmit={onSubmit} />
+        <Form
+            onSubmit={onSubmit}
+            render={({ handleSubmit, form, submitting, pristine,reset}) => (
+        
+        <form onSubmit={handleSubmit}>
+            <div>
+                <Field validate={required} placeholder={"login"} name={"login"} >
+                {({ input, meta }) => (
+                    <div>
+                        <input {...input} />
+                        {meta.error && meta.touched && <span>{meta.error}</span>}
+                    </div>
+                )}
+
+                </Field>
+            </div>
+            <div>
+                <Field validate={required} placeholder={"password"} name={"password"}>
+                {({ input, meta }) => (
+                    <div>
+                        <input {...input} />
+                        {meta.error && meta.touched && <span>{meta.error}</span>}
+                    </div>
+                )}
+
+                </Field>
+            </div>
+            <div>
+                <Field type={"checkbox"} name={"remember"} component={"input"}  /> remember me
+            </div>
+            <div>
+                <button>Login</button>
+            </div>
+        </form>
+            )}
+        />
+        
     </div>
 }
 
