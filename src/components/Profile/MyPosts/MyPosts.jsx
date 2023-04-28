@@ -32,7 +32,7 @@ const MyPosts = (props) => {
           <button>remove post</button>
         </div>
       </div>
-      <div className={style.posts}>
+       <div className={style.posts}>
         
         {postElement}
       </div>
