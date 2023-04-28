@@ -5,6 +5,7 @@ import Message from "./Message/Message";
 import Dialog from "./DialogItem/DialogItem";
 import { useState } from "react";
 import { Navigate } from "react-router-dom";
+import { reduxForm,Field } from "redux-form";
 
 
 
@@ -21,15 +22,15 @@ const Dialogs = (props  ) => {
     let messageElements = state.MessageData.map(
         message => < Message message={message.message} />
     );
-    let newMessageBody = state.newMessageBody
+    
 
-    let onSendMessageClick =() =>{
-        setMessage('');
-        props.sendMessage(message);
+    let onSendMessageClick =(values) =>{
+        
+        props.sendMessage(values.newPostText);
         
         
     }
-    let [message, setMessage] = useState('');
+    
     // let onNewMessageChange =(e) => {
     //     let body = e.target.value;
     //     props.updateNewMessageBody(body);
@@ -46,13 +47,24 @@ const Dialogs = (props  ) => {
             </div>
             <div className={style.messages}>
                 {messageElements}
-                <div>
-                    <div><textarea value={message} onChange={e => setMessage(e.target.value)} placeholder="Enter your message"></textarea></div> 
-                     <div><button onClick={onSendMessageClick}></button></div>
-                </div>
+                <ReduxFormNewDialogs onSubmit={onSendMessageClick} />
             </div>
         </div>
     );
 };
+
+const DialogsForm = (props) =>{
+    return(
+    <form onSubmit={props.handleSubmit}>
+                    <div>
+                        <Field component={"textarea"} name="newPostText" placeholder="Enter your message"/>
+                        </div> 
+                     <div><button >Send</button></div>
+                </form>
+    )
+}
+
+
+const ReduxFormNewDialogs = reduxForm({form: "NewPost"})(DialogsForm)
 
 export default Dialogs;
