@@ -6,9 +6,10 @@ import { connect } from "react-redux";
 import preloader from './../../img/preloader.svg'
 import style from './Users.module.css'
 import Preloader from './../common/Preloader/Preloader'
-import { UserAPI, getUsers } from "../../api/api";
+import { UserAPI } from "../../api/api";
 import { withAuthRedirect } from "../../hoc/withAuthRedirect";
 import { compose } from "redux";
+import { getCurrentPage, getFollowingInProgress, getIsFetching, getPageSize,getUsers, totalUsersCount } from "../../redux/users-selector";
 
 class UsersAPI extends React.Component {
 
@@ -53,14 +54,16 @@ class UsersAPI extends React.Component {
 
 
 
+
+
 let mapStateToProps = (state) =>{
     return {
-        users: state.usersPage.users,
-        pageSize: state.usersPage.pageSize,
-        totalUsersCount : state.usersPage.totalUsersCount,
-        currentPage:state.usersPage.currentPage,
-        isFetching : state.usersPage.isFetching,
-        followingInProgress: state.usersPage.followingInProgress
+        users: getUsers(state),
+        pageSize: getPageSize(state),
+        totalUsersCount : totalUsersCount(state),
+        currentPage:getCurrentPage(state),
+        isFetching : getIsFetching(state),
+        followingInProgress: getFollowingInProgress(state)
 
     }
 }
@@ -68,19 +71,6 @@ let mapStateToProps = (state) =>{
 
 
 
-
-const UsersContainer = withAuthRedirect(connect(mapStateToProps,{
-    follow,
-    unfollow,
-    setUsers,
-    setCurrentPage,
-    setTotalUsersCount,
-    toogleIsFetching,
-    toogleFollowingInProgress,
-    getUsersThunk,
-    
-}
-)(UsersAPI))
 
 
 export default compose(
@@ -95,5 +85,5 @@ export default compose(
         getUsersThunk,
         
     }),
-    withAuthRedirect
+    // withAuthRedirect
 )(UsersAPI)

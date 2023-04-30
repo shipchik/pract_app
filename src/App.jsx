@@ -7,10 +7,28 @@ import { Route, Routes } from 'react-router-dom';
 
 import DialogsContainer from './components/Dialogs/DialogsContainer';
 import UsersContainer from './components/Users/UsersContainer';
-import ProfileContainer from './components/Profile/ProfileContainer';
+import ProfileContainer, { withRouter } from './components/Profile/ProfileContainer';
 import HeaderContainer from './components/header/HeaderContainer';
 import Login from './components/Login/Login';
-const App = () => {
+import React from 'react';
+import { connect } from 'react-redux';
+import { initialize } from './redux/app-reducer';
+import { compose } from 'redux';
+import Preloader from './components/common/Preloader/Preloader';
+
+
+class App extends React.Component{
+
+  componentDidMount() {
+    this.props.initialize()
+  }
+
+  
+  render (){
+
+    if(!this.props.initialized){
+      return <Preloader />
+    }
   return (
     
       
@@ -32,6 +50,16 @@ const App = () => {
     </div>
   
   );
+  }
 }
 
-export default App;
+const mapStateToProps = (state) =>({
+    initialized: state.app.initialized
+})
+
+
+export default compose(
+   withRouter,
+  connect(mapStateToProps,{initialize})
+  )
+    (App);
